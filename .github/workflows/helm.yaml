@@ -21,16 +21,18 @@ env:
   IMAGE_TAG: 0.1.2
   
 jobs:
-  job:
+  helm:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
+
       - id: auth
         uses: google-github-actions/auth@v1
         name: Authenticate to Google Cloud
         with:
-          workload_identity_provider: '${{ secrets.WI_POOL_PROVIDER_ID }}'
-          service_account: '${{ secrets.PACKAGER_GSA_ID }}'
+          # workload_identity_provider: '${{ secrets.WI_POOL_PROVIDER_ID }}'
+          # service_account: '${{ secrets.PACKAGER_GSA_ID }}'
           token_format: 'access_token'
 
       - name: Set up Cloud SDK
@@ -38,13 +40,13 @@ jobs:
         with:
           version: latest
 
-      - name: Use gcloud CLI
-        run: 'gcloud info'
+      # - name: Use gcloud CLI
+      #   run: 'gcloud info'
 
       - name: Login to GCP Artifact Registry
         run: |
-          gcloud auth configure-docker ${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }} --quiet
-          # gcloud auth print-access-token | helm registry login -u oauth2accesstoken --password-stdin https://${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}
+          # gcloud auth configure-docker ${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }} --quiet
+          gcloud auth print-access-token | helm registry login -u oauth2accesstoken --password-stdin https://${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}
 
       - name: Helm package
         run: |
