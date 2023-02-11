@@ -10,9 +10,15 @@ on:
       - 'infra/go-demo-app/**'
   pull_request:
     branches: [ 'main' ]
+    paths:
+      - 'infra/go-demo-app/**'
+
+  workflow_dispatch:
+
 env:
   CHART_NAME: go-demo-app
   IMAGE_TAG: 0.1.0
+  
 jobs:
   job:
     runs-on: ubuntu-latest

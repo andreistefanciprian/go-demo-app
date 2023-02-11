@@ -4,9 +4,14 @@ on:
   push:
     branches:
       - 'main'
+    paths:
+      - '!infra/go-demo-app/**'
+      - '!README.md'
   pull_request:
     branches: [ 'main' ]
-  
+    paths:
+      - '!infra/go-demo-app/**'
+      - '!README.md'
   workflow_dispatch:
 
 jobs:
