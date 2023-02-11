@@ -18,7 +18,7 @@ on:
 
 env:
   CHART_NAME: go-demo-app
-  # IMAGE_TAG: "0.1.${{ github.sha }}"
+  CHART_VERSION: "0.1.4"
   
 jobs:
   helm:
@@ -26,12 +26,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Increment Step Patch
-        id: increment-semver-patch
-        uses: Benbentwo/increment-semver@master
-        with:
-          version-level: '-p'
 
       - id: auth
         uses: google-github-actions/auth@v1
@@ -53,8 +47,8 @@ jobs:
           
       - name: Helm package
         run: |
-          helm package infra/go-demo-app --version ${{ steps.increment-semver-patch.outputs.version }}
+          helm package infra/go-demo-app --version $CHART_VERSION
 
       - name: Helm push
         run: |
-          helm push $CHART_NAME-${{ steps.increment-semver-patch.outputs.version }}.tgz oci://${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPOSITORY }} --debug
+          helm push $CHART_NAME-$CHART_VERSION.tgz oci://${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPOSITORY }} --debug
