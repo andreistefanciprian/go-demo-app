@@ -47,8 +47,8 @@ jobs:
           
       - name: Helm package
         run: |
-          helm package infra/go-demo-app --version ${{ github.sha }}
+          helm package infra/go-demo-app --version $CHART_VERSION
 
       - name: Helm push
         run: |
-          helm push $CHART_NAME-${{ github.sha }}.tgz oci://${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPOSITORY }} --debug
+          helm push $CHART_NAME-$CHART_VERSION.tgz oci://${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPOSITORY }} --debug
