@@ -18,7 +18,7 @@ on:
 
 env:
   CHART_NAME: go-demo-app
-  IMAGE_TAG: 0.1.2
+  IMAGE_TAG: "0.1.${{ github.sha }}"
   
 jobs:
   helm:
@@ -40,20 +40,10 @@ jobs:
         with:
           version: latest
 
-      - name: Use gcloud CLI
-        run: 'gcloud info'
-
       - name: Login to GCP Artifact Registry
         run: |
           gcloud auth configure-docker ${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }} --quiet
           # gcloud auth print-access-token | helm registry login -u oauth2accesstoken --password-stdin https://${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}
-
-      # # This example uses the docker login action
-      # - uses: 'docker/login-action@v1'
-      #   with:
-      #     registry: '${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}'
-      #     username: 'oauth2accesstoken'
-      #     password: '${{ steps.auth.outputs.access_token }}'
           
       - name: Helm package
         run: |
