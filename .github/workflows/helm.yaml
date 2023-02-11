@@ -31,8 +31,8 @@ jobs:
         uses: google-github-actions/auth@v1
         name: Authenticate to Google Cloud
         with:
-          # workload_identity_provider: '${{ secrets.WI_POOL_PROVIDER_ID }}'
-          # service_account: '${{ secrets.PACKAGER_GSA_ID }}'
+          workload_identity_provider: '${{ secrets.WI_POOL_PROVIDER_ID }}'
+          service_account: '${{ secrets.PACKAGER_GSA_ID }}'
           token_format: 'access_token'
 
       - name: Set up Cloud SDK
