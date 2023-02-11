@@ -12,6 +12,7 @@ on:
     paths:
       - '!infra/go-demo-app/**'
       - '!README.md'
+      
   workflow_dispatch:
 
 jobs:

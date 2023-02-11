@@ -1,7 +1,9 @@
 name: helm
+
 permissions:
   contents: read
   id-token: write
+
 on:
   push:
     branches:
@@ -12,36 +14,41 @@ on:
     branches: [ 'main' ]
     paths:
       - 'infra/go-demo-app/**'
-
   workflow_dispatch:
 
 env:
   CHART_NAME: go-demo-app
-  IMAGE_TAG: 0.1.0
+  IMAGE_TAG: 0.1.2
   
 jobs:
   job:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: helm lint
-        run: |
-          helm lint infra/go-demo-app
-      - uses: google-github-actions/auth@v0
+      - id: auth
+        uses: google-github-actions/auth@v1
+        name: Authenticate to Google Cloud
         with:
           workload_identity_provider: '${{ secrets.WI_POOL_PROVIDER_ID }}'
           service_account: '${{ secrets.PACKAGER_GSA_ID }}'
           token_format: 'access_token'
-      - uses: google-github-actions/setup-gcloud@v0
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
         with:
           version: latest
-      - name: login to artifact registry
+
+      - name: Use gcloud CLI
+        run: 'gcloud info'
+
+      - name: Login to GCP Artifact Registry
         run: |
           gcloud auth configure-docker ${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }} --quiet
-      - name: helm package
+
+      - name: Helm package
         run: |
           helm package infra/go-demo-app --version $IMAGE_TAG
-      - name: helm push
-        # if: ${{ github.event_name == 'push' }}
+
+      - name: Helm push
         run: |
           helm push $CHART_NAME-$IMAGE_TAG.tgz oci://${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPOSITORY }}
