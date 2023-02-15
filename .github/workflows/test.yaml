@@ -60,15 +60,25 @@ jobs:
         with:
           version: latest
 
-      - name: Login to GCP Container Registry
+      # - name: Login to GCP Container Registry
+      #   run: |
+      #     gcloud auth configure-docker ${{ secrets.CONTAINER_REGISTRY_HOST_NAME }} --quiet
+
+      # - name: Build Docker image
+      #   run: docker build -f infra/Dockerfile . -t ${{ secrets.CONTAINER_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ github.repository }}:${{ github.sha }}
+
+      # - name: Push Docker image
+      #   run: docker push ${{ secrets.CONTAINER_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ github.repository }}:${{ github.sha }}
+
+      - name: Login to GCP Artifact Registry
         run: |
-          gcloud auth configure-docker ${{ secrets.CONTAINER_REGISTRY_HOST_NAME }} --quiet
+          gcloud auth configure-docker ${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }} --quiet
 
       - name: Build Docker image
-        run: docker build -f infra/Dockerfile . -t ${{ secrets.CONTAINER_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ github.repository }}:${{ github.sha }}
+        run: docker build -f infra/Dockerfile . -t ${{ secrets.CONTAINER_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/container-images/dev/go-demo-app:${{ github.sha }}
 
       - name: Push Docker image
-        run: docker push ${{ secrets.CONTAINER_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ github.repository }}:${{ github.sha }}
+        run: docker push ${{ secrets.CONTAINER_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/container-images/dev/go-demo-app:${{ github.sha }}
 
   unit-test:
     runs-on: ubuntu-latest
