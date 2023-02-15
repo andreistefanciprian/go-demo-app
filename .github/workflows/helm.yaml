@@ -43,7 +43,6 @@ jobs:
       - name: Login to GCP Artifact Registry
         run: |
           gcloud auth configure-docker ${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }} --quiet
-          # gcloud auth print-access-token | helm registry login -u oauth2accesstoken --password-stdin https://${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}
           
       - name: Helm package
         run: |
