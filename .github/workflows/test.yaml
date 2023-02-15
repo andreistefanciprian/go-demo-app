@@ -65,10 +65,10 @@ jobs:
           gcloud auth configure-docker ${{ secrets.CONTAINER_REGISTRY_HOST_NAME }} --quiet
 
       - name: Build Docker image
-        run: docker build -f infra/Dockerfile . -t ${{ github.repository }}:${{ github.sha }}
+        run: docker build -f infra/Dockerfile . -t ${{ secrets.CONTAINER_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ github.repository }}:${{ github.sha }}
 
       - name: Push Docker image
-        run: docker push ${{ github.repository }}:${{ github.sha }}
+        run: docker push ${{ secrets.CONTAINER_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ github.repository }}:${{ github.sha }}
 
   unit-test:
     runs-on: ubuntu-latest
