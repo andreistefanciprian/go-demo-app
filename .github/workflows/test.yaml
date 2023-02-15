@@ -41,6 +41,9 @@ jobs:
   build-and-push-gcr:
     needs: unit-test
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
       - uses: actions/checkout@v3
 
