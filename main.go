@@ -18,7 +18,6 @@ func helloWorld(w http.ResponseWriter, req *http.Request) {
 	io.WriteString(w, msg)
 }
 
-// define main function
 func main() {
 	// define vars
 	httpPort := ":8080"
