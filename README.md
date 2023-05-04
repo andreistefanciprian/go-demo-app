@@ -1,5 +1,7 @@
 # go-demo-app
 
+This repo has github actions workflows for pushing container image and helm chart to Google Artifact Registry (GAR).
+The terraform code for building the GAR is [here](https://github.com/andreistefanciprian/terraform-kubernetes-gke-cluster).
 
 ## Deploy app to k8s
 ```
@@ -27,7 +29,7 @@ helm template go-demo-app --namespace test --create-namespace oci://australia-so
 
 ```
 PROJECT_ID="YOUR_PROJECT_ID"
-SA_NAME="gha-helm-push"
+SA_NAME="github-runner"
 REGION="australia-southeast2"
 WI_POOL_PROVIDER_ID=$(gcloud iam workload-identity-pools providers describe go-demo-app-prvdr --workload-identity-pool=go-demo-app --location global --format='get(name)')
 
