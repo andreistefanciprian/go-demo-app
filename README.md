@@ -32,7 +32,8 @@ REGION="australia-southeast2"
 WI_POOL_PROVIDER_ID=$(gcloud iam workload-identity-pools providers describe go-demo-app-prvdr --workload-identity-pool=go-demo-app --location global --format='get(name)')
 
 gh secret set PROJECT_ID -b"${PROJECT_ID}"
-gh secret set ARTIFACT_REGISTRY_REPOSITORY -b"helm-charts"
+gh secret set HELM_REPO_ID -b"cmek-helm-charts"
+gh secret set IMAGE_REPO_ID -b"cmek-container-images"
 gh secret set ARTIFACT_REGISTRY_HOST_NAME -b"${REGION}-docker.pkg.dev"
 gh secret set PACKAGER_GSA_ID -b"${SA_NAME}@${PROJECT_ID}.iam.gserviceaccount.com"
 gh secret set WI_POOL_PROVIDER_ID -b"${WI_POOL_PROVIDER_ID}"

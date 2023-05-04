@@ -92,7 +92,7 @@ jobs:
           gcloud auth configure-docker ${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }} --quiet
 
       - name: Build Docker image
-        run: docker build -f infra/Dockerfile . -t ${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/container-images/dev/go-demo-app:${{ github.sha }}
+        run: docker build -f infra/Dockerfile . -t ${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ secrets.IMAGE_REPO_ID }}/dev/go-demo-app:${{ github.sha }}
 
       - name: Push Docker image
-        run: docker push ${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/container-images/dev/go-demo-app:${{ github.sha }}
+        run: docker push ${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ secrets.IMAGE_REPO_ID }}/dev/go-demo-app:${{ github.sha }}

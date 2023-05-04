@@ -52,4 +52,4 @@ jobs:
 
       - name: Helm push
         run: |
-          helm push go-demo-app-$CHART_VERSION.tgz oci://${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_REPOSITORY }} --debug
+          helm push go-demo-app-$CHART_VERSION.tgz oci://${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ secrets.HELM_REPO_ID }} --debug
