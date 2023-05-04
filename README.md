@@ -19,8 +19,8 @@ kubectl -n test logs -l app.kubernetes.io/name=go-demo-app -f
 PROJECT_ID="YOUR_PROJECT_ID"
 gcloud auth print-access-token | helm registry login -u oauth2accesstoken --password-stdin https://australia-southeast2-docker.pkg.dev
 helm package infra/go-demo-app
-helm push go-demo-app-0.1.0.tgz oci://australia-southeast2-docker.pkg.dev/${PROJECT_ID}/helm-charts
-helm template go-demo-app --namespace test --create-namespace oci://australia-southeast2-docker.pkg.dev/${PROJECT_ID}/helm-charts/go-demo-app --version 0.1.0
+helm push go-demo-app-0.1.0.tgz oci://australia-southeast2-docker.pkg.dev/${PROJECT_ID}/cmek-helm-charts
+helm template go-demo-app --namespace test --create-namespace oci://australia-southeast2-docker.pkg.dev/${PROJECT_ID}/cmek-helm-charts/go-demo-app --version 0.1.0
 ```
 
 ## Setup github actions workflow env vars
