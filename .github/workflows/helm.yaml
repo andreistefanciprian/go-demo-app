@@ -21,7 +21,7 @@ on:
 
 env:
 #   CHART_NAME: go-demo-app
-  CHART_VERSION: "0.1.4"
+  CHART_VERSION: "0.1.${{ github.run_number }}"
   
 jobs:
   helm:
