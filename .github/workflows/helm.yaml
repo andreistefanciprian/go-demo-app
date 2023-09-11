@@ -21,7 +21,8 @@ on:
 
 env:
 #   CHART_NAME: go-demo-app
-  CHART_VERSION: "v0.1.1-${{ github.run_number }}"
+  # CHART_VERSION: "v0.1.1-${{ github.run_number }}"
+  CHART_VERSION: "${{ github.event.ref }}-${{ github.run_number }}"
   
 jobs:
   helm:
