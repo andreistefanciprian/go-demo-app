@@ -20,9 +20,8 @@ on:
   workflow_dispatch:
 
 env:
-#   CHART_NAME: go-demo-app
-  # CHART_VERSION: "v0.1.1-${{ github.run_number }}"
-  CHART_VERSION: "$(git describe --tags --abbrev=0)-${{ github.run_number }}"
+  CHART_VERSION: "${{ github.sha }}-${{ github.run_number }}"
+  # CHART_VERSION: "$(git describe --tags --abbrev=0)-${{ github.run_number }}"
   
 jobs:
   helm:
