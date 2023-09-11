@@ -19,9 +19,9 @@ on:
       - '.github/workflows/helm.yaml'
   workflow_dispatch:
 
-env:
-  CHART_VERSION: "${{ github.sha::8 }}-${{ github.run_number }}"
-  # CHART_VERSION: "$(git describe --tags --abbrev=0)-${{ github.run_number }}"
+# env:
+#   CHART_VERSION: "${{ github.sha::8 }}-${{ github.run_number }}"
+#   # CHART_VERSION: "$(git describe --tags --abbrev=0)-${{ github.run_number }}"
   
 jobs:
   helm:
@@ -30,9 +30,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - id: auth
+      - name: Get the latest Git tag
+        id: get-latest-tag
+        run: |
+          latest_tag=$(git describe --tags --abbrev=0)
+          echo "::set-output name=latest_tag::$latest_tag"
+
+      - name: Authenticate to Google Cloud
+        id: auth
         uses: google-github-actions/auth@v1
-        name: Authenticate to Google Cloud
         with:
           workload_identity_provider: '${{ secrets.WI_POOL_PROVIDER_ID }}'
           service_account: '${{ secrets.PACKAGER_GSA_ID }}'
@@ -50,7 +56,11 @@ jobs:
       - name: Helm package
         run: |
           helm package infra/go-demo-app --version $CHART_VERSION
+        env:
+          CHART_VERSION: ${{ steps.get-latest-tag.outputs.latest_tag }}-${{ github.run_number }}
 
       - name: Helm push
         run: |
           helm push go-demo-app-$CHART_VERSION.tgz oci://${{ secrets.ARTIFACT_REGISTRY_HOST_NAME }}/${{ secrets.PROJECT_ID }}/${{ secrets.HELM_REPO_ID }} --debug
+        env:
+          CHART_VERSION: ${{ steps.get-latest-tag.outputs.latest_tag }}-${{ github.run_number }}
