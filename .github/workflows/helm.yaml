@@ -20,7 +20,7 @@ on:
   workflow_dispatch:
 
 env:
-  CHART_VERSION: "${{ github.sha }}-${{ github.run_number }}"
+  CHART_VERSION: "${{ github.sha::8 }}-${{ github.run_number }}"
   # CHART_VERSION: "$(git describe --tags --abbrev=0)-${{ github.run_number }}"
   
 jobs:
