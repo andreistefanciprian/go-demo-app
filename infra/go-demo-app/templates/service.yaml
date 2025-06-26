@@ -4,6 +4,12 @@ metadata:
   name: {{ include "go-demo-app.fullname" . }}
   labels:
     {{- include "go-demo-app.labels" . | nindent 4 }}
+  {{- if .Values.serviceMonitor.enabled }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "{{ .Values.service.port }}"
+    prometheus.io/path: "{{ .Values.serviceMonitor.path }}"
+  {{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:

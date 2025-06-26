@@ -76,3 +76,14 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# ServiceMonitor for Prometheus metrics
+serviceMonitor:
+  enabled: true
+  labels:
+    app.kubernetes.io/component: monitoring
+  annotations: {}
+  interval: 30s
+  scrapeTimeout: 10s
+  path: /metrics
+  port: http
