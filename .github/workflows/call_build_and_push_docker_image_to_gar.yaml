@@ -48,7 +48,7 @@ jobs:
 
   build-and-push-docker-image-to-gar:
     needs: generate-build-id
-    uses: andreistefanciprian/gh-reusable-workflows/.github/workflows/build_and_push_docker_image_to_gar.yaml@add-sbom-provenance-attestations-gar
+    uses: andreistefanciprian/gh-reusable-workflows/.github/workflows/build_and_push_docker_image_to_gar.yaml@main
     with:
       app_name: go-demo-app
       build_id: ${{ needs.generate-build-id.outputs.BUILD_ID }}
