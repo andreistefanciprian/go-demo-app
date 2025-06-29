@@ -19,7 +19,26 @@ on:
   workflow_dispatch:
 
 jobs:
+  security-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Conftest
+        run: |
+          CONFTEST_VERSION="0.61.2"
+          curl -L -o conftest.tar.gz "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"
+          tar xzf conftest.tar.gz
+          sudo mv conftest /usr/local/bin/conftest
+          conftest --version
+
+      - name: Validate Security Policies
+        run: |
+          helm template test-release infra/go-demo-app | conftest test --policy infra/policy -
+
   generate-build-id:
+    needs: security-validation
     runs-on: ubuntu-latest
     outputs:
       CHART_VERSION: "v0.1.0-${{ steps.prep.outputs.BUILD_ID }}"
