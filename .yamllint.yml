@@ -1,0 +1,14 @@
+extends: default
+
+rules:
+  document-start: disable  # Don't require --- at start
+  line-length:
+    max: 120  # Allow longer lines for Helm charts
+  comments-indentation: disable  # Be flexible with comment indentation
+  braces:
+    max-spaces-inside: 1  # Allow some space in braces
+  brackets:
+    max-spaces-inside: 1
+  indentation:
+    spaces: 2
+    indent-sequences: true
